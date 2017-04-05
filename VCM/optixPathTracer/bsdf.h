@@ -473,7 +473,7 @@ struct SubPathState
     float3 origin;        
     float3 direction;     
     float3 throughput;    
-    uint  pathlen    : 30;
+    uint  pathlen    : 1;
 	uint  isLgtFinite : 1;
     uint  specPath  :  1; 
 

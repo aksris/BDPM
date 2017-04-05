@@ -187,7 +187,7 @@ void createContext()
 
 	lightConditions = 2;
 	materials = object = 0;
-	mMaxPathLength = 5;
+	mMaxPathLength = 15;
 	amount = 10.f;
 	context["mMaxPathLength"]->setInt(10);
 	context->setRayTypeCount(2);
@@ -301,9 +301,9 @@ void loadGeometry(const std::string mesh_file)
 	loadMesh(light_name, model2, xform);
 
 	if (lightConditions > 1){
-		createLightBuffer(model, nlights, make_float3(0.3f * 70.03329895614464f));
-		createLightBuffer(model1, nlights, make_float3(0.3f * 80.f));
-		createLightBuffer(model2, nlights, make_float3(0.3f * 90.f));
+		createLightBuffer(model, nlights, make_float3 (/*3.3f * */70.03329895614464f));
+		createLightBuffer(model1, nlights, make_float3(/*3.3f * */80.f));
+		createLightBuffer(model2, nlights, make_float3(/*3.3f * */90.f));
 	}
 
 	// Create a buffer for the next-event estimation...
@@ -335,7 +335,7 @@ void loadGeometry(const std::string mesh_file)
 	material[0]->setAnyHitProgram(1, any_hit);
 	BaseMaterial mat;
 	mat.Reset();
-	mat.diffusePart = make_float3(0.5f);
+	mat.diffusePart = make_float3(1.f);
 	material[0]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
 	material[1]->setClosestHitProgram(0, closest_hit);
@@ -362,7 +362,7 @@ void loadGeometry(const std::string mesh_file)
 	material[4]->setClosestHitProgram(0, closest_hit);
 	material[4]->setAnyHitProgram(1, any_hit);
 	mat.Reset();
-	mat.mirror = make_float3(1, 1, 1);
+	mat.mirror = make_float3(0.33f, 0.78f, 0.32f);
 	mat.ior = 1.6f;
 	material[4]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
@@ -377,7 +377,7 @@ void loadGeometry(const std::string mesh_file)
 	material[6]->setClosestHitProgram(0, closest_hit);
 	material[6]->setAnyHitProgram(1, any_hit);
 	mat.Reset();
-	mat.mirror = make_float3(1, 1, 1);
+	mat.mirror = make_float3(0.67f, 0.45f, 0.33f);
 	material[6]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
 	material[7]->setClosestHitProgram(0, closest_hit);
@@ -391,7 +391,8 @@ void loadGeometry(const std::string mesh_file)
 	material[8]->setClosestHitProgram(0, closest_hit);
 	material[8]->setAnyHitProgram(1, any_hit);
 	mat.Reset();
-	mat.diffusePart = make_float3(0.97f, 0.69f, 0.58f);
+	mat.ior = 2.5f;
+	mat.mirror = make_float3(0.97f, 0.69f, 0.58f);
 	material[8]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
 	const std::string ptx_path = ptxPath("triangle_mesh_iterative.cu");
@@ -417,22 +418,23 @@ void loadGeometry(const std::string mesh_file)
 	loadMesh(std::string(sutil::samplesDir()) + "/data/infinity_plane.obj", mesh);
 	gis.push_back(mesh.geom_instance);
 
-	mesh.material = material[8];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/lucy.obj", mesh/*, Matrix4x4::translate(make_float3(0.f, 5.f, 0.f))*/);
+	mesh.material = material[7];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/buddha.obj", mesh/*, Matrix4x4::scale(make_float3(30.f))*/);
 	gis.push_back(mesh.geom_instance);
 	//loadMesh(mesh_file, mesh, Matrix4x4::scale(make_float3(2500.f)) * Matrix4x4::translate(make_float3(0.12f, 0.f, -0.05f)));
 	//gis.push_back(mesh.geom_instance);
 
-	//mesh.material = material[4];
-	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellKnot.obj", mesh, Matrix4x4::scale(make_float3(80.f)) * Matrix4x4::translate(make_float3(0.1f, 3.f, 0.f)));
-	//gis.push_back(mesh.geom_instance);
+	mesh.material = material[4];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/lucy.obj", mesh, /*Matrix4x4::scale(make_float3(80.f)) * */Matrix4x4::translate(make_float3(8.5f, 3.f, 0.f)));
+	gis.push_back(mesh.geom_instance);
 
-	////loadMesh(std::string(sutil::samplesDir()) + "/data/dragon.obj", mesh, Matrix4x4::scale(make_float3(300.f)) * Matrix4x4::translate(make_float3(0.5f, 0.4f, -1.2f)) * Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f)));
-	////gis.push_back(mesh.geom_instance);
+	mesh.material = material[6];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/dragon.obj", mesh, Matrix4x4::scale(make_float3(20.f)) * Matrix4x4::translate(make_float3(-0.63f, 0.27f, 0.f)) * Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f)));
+	gis.push_back(mesh.geom_instance);
 
-	//mesh.material = material[5];
-	//loadMesh(std::string(sutil::samplesDir()) + "/data/dragon.obj", mesh, Matrix4x4::scale(make_float3(300.f)) * Matrix4x4::translate(make_float3(1.f, 0.4f, -1.2f)) * Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f)));
-	//gis.push_back(mesh.geom_instance);
+	mesh.material = material[8];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/bunny.obj", mesh, Matrix4x4::translate(make_float3(20.5f, 3.f, 0.f)));
+	gis.push_back(mesh.geom_instance);
 
 	//mesh.material = material[7];
 	//loadMesh(std::string(sutil::samplesDir()) + "/data/bunny.obj", mesh, Matrix4x4::scale(make_float3(900.f)) * Matrix4x4::translate(make_float3(0.1f, 0.2f, -0.1f)) * Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f)));
@@ -488,7 +490,7 @@ void loadGeometry(const std::string mesh_file)
 
 void setupCamera()
 {
-	camera_eye = make_float3(0.44f, 13.0f, 50.590f);
+	camera_eye = make_float3(0.44f, 13.0f, 52.590f);
 	camera_lookat = make_float3(0.44f, 13.0f, 3.0f);
 	camera_up = make_float3(0.0f, 1.0f, 0.0f);
 

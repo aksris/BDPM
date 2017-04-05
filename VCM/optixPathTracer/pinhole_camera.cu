@@ -470,7 +470,7 @@ RT_PROGRAM void pinhole_camera()
 {
 	//rtPrintf("here in pinhole camera");
 #ifdef CONNECT_VERTEXES
-	LightVertex lvertexes[10]; 
+	LightVertex lvertexes[30]; 
 #endif
 	clock_t start_time = clock();
 	SubPathState lightState, cameraState;
@@ -649,7 +649,7 @@ RT_PROGRAM void pinhole_camera()
 	/*atomicMin(temp + offset, 0);
 	atomicMin(temp + offset + 1, 0);
 	atomicMin(temp + offset + 2, 0);
-	float scale = 0.1f;
+	float scale = 10.1f;
 	atomicAdd(base_output + offset,		time / (1038000.f * scale));
 	atomicAdd(base_output + offset + 1, time / (1038000.f * scale));
 	atomicAdd(base_output + offset + 2, time / (1038000.f * scale));*/
