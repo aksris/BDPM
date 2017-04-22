@@ -99,7 +99,6 @@ void meshIntersect( int primIdx )
                   back_hit_point,
                   front_hit_point );
       }
-
       rtReportIntersection(material_buffer[primIdx]);
     }
   }

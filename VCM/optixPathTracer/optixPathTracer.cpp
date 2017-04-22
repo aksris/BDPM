@@ -79,7 +79,7 @@ uint32_t       height = 768;
 bool           use_pbo = true;
 
 int            frame_number = 1;
-int            sqrt_num_samples = 2;
+int            sqrt_num_samples = 4;
 int            rr_begin_depth = 1;
 Program        tri_intersection = 0;
 Program        tri_bounding_box = 0;
@@ -286,24 +286,24 @@ void loadGeometry(const std::string mesh_file)
 
 	std::vector<Light> nlights;
 	Mesh model, model1, model2;
-	std::string light_name = std::string(sutil::samplesDir()) + "/data/CornellLight.obj";
+	std::string light_name = std::string(sutil::samplesDir()) + "/data/conferenceLight.obj";
 	Matrix4x4 matrix = Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(1.8f, 4.f, 0.f)) * Matrix4x4::rotate(-0.785f, make_float3(0.f, 1.f, 0.f));
 	const float* xform = matrix.getData();
 	
-	loadMesh(light_name, model, xform);
-	
+	loadMesh(light_name, model/*, xform*/);
+	/*
 	matrix = Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(-3.f, 4.f, 0.f)) * Matrix4x4::rotate(0.785f, make_float3(0.f, 1.f, 0.f));
 	xform = matrix.getData();
 	loadMesh(light_name, model1, xform);
 
 	matrix = Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(0.f, 5.f, 3.f)) * Matrix4x4::rotate(0.785f, make_float3(1.f, 0.f, 0.f));
 	xform = matrix.getData();
-	loadMesh(light_name, model2, xform);
+	loadMesh(light_name, model2, xform);*/
 
 	if (lightConditions > 1){
-		createLightBuffer(model, nlights, make_float3 (/*3.3f * */70.03329895614464f));
-		createLightBuffer(model1, nlights, make_float3(/*3.3f * */80.f));
-		createLightBuffer(model2, nlights, make_float3(/*3.3f * */90.f));
+		createLightBuffer(model, nlights, make_float3 (0.5f * 70.03329895614464f));
+		//createLightBuffer(model1, nlights, make_float3(/*1.3f * */80.f));
+		//createLightBuffer(model2, nlights, make_float3(/*0.8f * */90.f));
 	}
 
 	// Create a buffer for the next-event estimation...
@@ -321,7 +321,7 @@ void loadGeometry(const std::string mesh_file)
 	context["lightBuffer"]->setBuffer(m_light_buffer);
 
 
-	const int numMat = 9;
+	const int numMat = 10;
 	optix::Material material[numMat];
 	for (int i = 0; i < numMat; ++i)
 		material[i] = context->createMaterial();
@@ -335,8 +335,11 @@ void loadGeometry(const std::string mesh_file)
 	material[0]->setAnyHitProgram(1, any_hit);
 	BaseMaterial mat;
 	mat.Reset();
-	mat.diffusePart = make_float3(1.f);
+	mat.diffusePart = make_float3(0.1f);
+	/*material[0]["Kd_map"]->setTextureSampler(sutil::loadTexture(context, "optixPathTracer_3objs.ppm", make_float3(1.f)));
+	material[0]["Kd_mapped"]->setInt(true);*/
 	material[0]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
+	
 
 	material[1]->setClosestHitProgram(0, closest_hit);
 	material[1]->setAnyHitProgram(1, any_hit);
@@ -347,7 +350,7 @@ void loadGeometry(const std::string mesh_file)
 	material[2]->setClosestHitProgram(0, closest_hit);
 	material[2]->setAnyHitProgram(1, any_hit);
 	mat.Reset();
-	mat.diffusePart = make_float3(0.15f, 0.48f, 0.09f);
+	mat.diffusePart = make_float3(0.15f, 0.09f, 0.48f);
 	material[2]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
 	// Light material...
@@ -377,7 +380,8 @@ void loadGeometry(const std::string mesh_file)
 	material[6]->setClosestHitProgram(0, closest_hit);
 	material[6]->setAnyHitProgram(1, any_hit);
 	mat.Reset();
-	mat.mirror = make_float3(0.67f, 0.45f, 0.33f);
+	mat.mirror = make_float3(0.45f, 0.03f, 0.77f);
+	//mat.mirror = make_float3(0.97f, 0.97f, 0.97f);
 	material[6]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
 	material[7]->setClosestHitProgram(0, closest_hit);
@@ -392,8 +396,14 @@ void loadGeometry(const std::string mesh_file)
 	material[8]->setAnyHitProgram(1, any_hit);
 	mat.Reset();
 	mat.ior = 2.5f;
-	mat.mirror = make_float3(0.97f, 0.69f, 0.58f);
+	mat.mirror = make_float3(0.97f, 0.9f, 0.9f);
 	material[8]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
+
+	material[9]->setClosestHitProgram(0, closest_hit);
+	material[9]->setAnyHitProgram(1, any_hit);
+	mat.Reset();
+	mat.diffusePart = make_float3(1.f, 0.85f, 0.725f);
+	material[9]["mat"]->setUserData(sizeof(BaseMaterial), &mat);
 
 	const std::string ptx_path = ptxPath("triangle_mesh_iterative.cu");
 	tri_bounding_box = context->createProgramFromPTXFile(ptx_path, "mesh_bounds");
@@ -414,46 +424,82 @@ void loadGeometry(const std::string mesh_file)
 	mesh.bounds = tri_bounding_box;
 	mesh.material = material[1];
 
-	mesh.material = material[0];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/infinity_plane.obj", mesh);
-	gis.push_back(mesh.geom_instance);
+	//mesh.material = material[0];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/infinity_plane.obj", mesh);
+	//gis.push_back(mesh.geom_instance);
 
 	mesh.material = material[7];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/buddha.obj", mesh/*, Matrix4x4::scale(make_float3(30.f))*/);
-	gis.push_back(mesh.geom_instance);
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/buddha.obj", mesh/*, Matrix4x4::scale(make_float3(30.f))*/);
+	//gis.push_back(mesh.geom_instance);
 	//loadMesh(mesh_file, mesh, Matrix4x4::scale(make_float3(2500.f)) * Matrix4x4::translate(make_float3(0.12f, 0.f, -0.05f)));
 	//gis.push_back(mesh.geom_instance);
 
-	mesh.material = material[4];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/lucy.obj", mesh, /*Matrix4x4::scale(make_float3(80.f)) * */Matrix4x4::translate(make_float3(8.5f, 3.f, 0.f)));
+	mesh.material = material[1];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/test_5M_tri.obj", mesh, Matrix4x4::scale(make_float3(0.1f))  /**Matrix4x4::translate(make_float3(8.5f, 3.f, 0.f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	//mesh.material = material[1];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/bmx.obj", mesh/*, Matrix4x4::scale(make_float3(1.f))*/ /** Matrix4x4::translate(make_float3(-0.63f, 5.27f, 0.f))*/ /** Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	mesh.material = material[8];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/bunny.obj", mesh, Matrix4x4::translate(make_float3(20.5f, 3.f, 0.f)));
+	//gis.push_back(mesh.geom_instance);
+
+	//mesh.material = material[1];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/xyzrgb_statuette.ply", mesh, Matrix4x4::translate(make_float3(2.5f, 2.f, -2.f)) * Matrix4x4::scale(make_float3(0.01f)) /** Matrix4x4::translate(make_float3(100.5f, 150.f, 10.0f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	//mesh.material = material[0];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellDiffuse2.obj", mesh/*, Matrix4x4::rotate(3.1412f, make_float3(0.f, 1.f, 0.f)) * Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-5.4f, 0.f, 5.f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	//mesh.material = material[0];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellLight.obj", mesh/*, Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-0.1f, 5.f, -14.f)) * Matrix4x4::rotate(-M_PI_2f, make_float3(1.f, 0.f, 0.f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	//mesh.material = material[1];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellRedWall.obj", mesh/*, Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-0.1f, 0.f, 0.55f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	mesh.material = material[0];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conference.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
 	gis.push_back(mesh.geom_instance);
 
-	mesh.material = material[6];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/dragon.obj", mesh, Matrix4x4::scale(make_float3(20.f)) * Matrix4x4::translate(make_float3(-0.63f, 0.27f, 0.f)) * Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f)));
+	mesh.material = material[2];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceChalkboard.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
+	gis.push_back(mesh.geom_instance);
+	
+	mesh.material = material[1];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceFloor.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
+	gis.push_back(mesh.geom_instance);
+
+	mesh.material = material[7];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceDoor.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
 	gis.push_back(mesh.geom_instance);
 
 	mesh.material = material[8];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/bunny.obj", mesh, Matrix4x4::translate(make_float3(20.5f, 3.f, 0.f)));
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceTables.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
 	gis.push_back(mesh.geom_instance);
 
-	//mesh.material = material[7];
-	//loadMesh(std::string(sutil::samplesDir()) + "/data/bunny.obj", mesh, Matrix4x4::scale(make_float3(900.f)) * Matrix4x4::translate(make_float3(0.1f, 0.2f, -0.1f)) * Matrix4x4::rotate(-1.5709f, make_float3(0.f, 1.f, 0.f)));
-	//gis.push_back(mesh.geom_instance);
+	mesh.material = material[8];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceTableStands.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
+	gis.push_back(mesh.geom_instance);
+
+	mesh.material = material[9];
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceWalls.obj", mesh/*, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate(M_PIf / 2.f, make_float3(0.f, 0.f, 1.f))*/);
+	gis.push_back(mesh.geom_instance);
 
 	//mesh.material = material[0];
-	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellDiffuse2.obj", mesh, Matrix4x4::rotate(3.1412f, make_float3(0.f, 1.f, 0.f)) * Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-5.4f, 0.f, 5.f)));
-	//gis.push_back(mesh.geom_instance);
-
-	//mesh.material = material[0];
-	///*loadMesh(std::string(sutil::samplesDir()) + "/data/CornellLight.obj", mesh, Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-0.1f, 5.f, -14.f)) * Matrix4x4::rotate(-M_PI_2f, make_float3(1.f, 0.f, 0.f)));
-	//gis.push_back(mesh.geom_instance);*/
-
-	//mesh.material = material[1];
-	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellRedWall.obj", mesh, Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-0.1f, 0.f, 0.55f)));
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellRedWall.obj", mesh, Matrix4x4::translate(make_float3(5.0f, 0.f, 0.f)) * Matrix4x4::rotate((M_PI / 2.f), make_float3(0.f, 0.f, 1.f)));
 	//gis.push_back(mesh.geom_instance);
 
 	//mesh.material = material[2];
-	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellBlueWall.obj", mesh, Matrix4x4::rotate(M_PIf, make_float3(0.f, 1.f, 0.f)) * Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-5.4f, 0.f, 5.f)));
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellBlueWall.obj", mesh, Matrix4x4::translate(make_float3(0.2f, 0.f, 0.f))/* Matrix4x4::rotate(M_PIf, make_float3(0.f, 1.f, 0.f)) * Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-5.4f, 0.f, 5.f))*/);
+	//gis.push_back(mesh.geom_instance);
+
+	//mesh.material = material[0];
+	//loadMesh(std::string(sutil::samplesDir()) + "/data/CornellBlueWall.obj", mesh, Matrix4x4::rotate(-M_PIf / 2.f, make_float3(0.f, 1.f, 0.f)) * Matrix4x4::translate(make_float3(-5.f, 0.f, 0.f))/* * Matrix4x4::scale(make_float3(100.f)) * Matrix4x4::translate(make_float3(-5.4f, 0.f, 5.f))*/);
 	//gis.push_back(mesh.geom_instance);
 
 	// Create shadow group (no light)
@@ -467,15 +513,15 @@ void loadGeometry(const std::string mesh_file)
 	floor.intersection = tri_intersection;
 	floor.bounds = tri_bounding_box;
 	floor.material = material[3];
-	loadMesh(std::string(sutil::samplesDir()) + "/data/CornellLight.obj", floor, Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(1.8f, 4.f, 0.f)) * Matrix4x4::rotate(-0.785f, make_float3(0.f, 1.f, 0.f)));
+	loadMesh(std::string(sutil::samplesDir()) + "/data/conferenceLight.obj", floor/*, Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(1.8f, 4.f, 0.f)) * Matrix4x4::rotate(-0.785f, make_float3(0.f, 1.f, 0.f))*/);
 	gis.push_back(floor.geom_instance);
 
-	loadMesh(std::string(sutil::samplesDir()) + "/data/CornellLight.obj", floor, Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(-3.f, 4.f, 0.f)) * Matrix4x4::rotate(0.785f, make_float3(0.f, 1.f, 0.f)));
+	/*loadMesh(std::string(sutil::samplesDir()) + "/data/CornellLight.obj", floor, Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(-3.f, 4.f, 0.f)) * Matrix4x4::rotate(0.785f, make_float3(0.f, 1.f, 0.f)));
 	gis.push_back(floor.geom_instance);
 
 	loadMesh(std::string(sutil::samplesDir()) + "/data/CornellLight.obj", floor, Matrix4x4::scale(make_float3(10.f)) * Matrix4x4::translate(make_float3(0.f, 5.f, 3.f)) *
 		Matrix4x4::rotate(0.785f, make_float3(1.f, 0.f, 0.f)));
-	gis.push_back(floor.geom_instance);
+	gis.push_back(floor.geom_instance);*/
 	// Create geometry group
 
 	Acceleration acc = context->createAcceleration("Trbvh");
@@ -490,11 +536,13 @@ void loadGeometry(const std::string mesh_file)
 
 void setupCamera()
 {
-	camera_eye = make_float3(0.44f, 13.0f, 52.590f);
-	camera_lookat = make_float3(0.44f, 13.0f, 3.0f);
+	/*camera_eye = make_float3(0.44f, 13.0f, 52.590f);
+	camera_lookat = make_float3(0.44f, 13.0f, 3.0f);*/
+	camera_eye = make_float3(-857.53f, 401.f, -991.86f);
+	camera_lookat = make_float3(210.856f, 132.f, -577.0f); 
 	camera_up = make_float3(0.0f, 1.0f, 0.0f);
 
-	camera_rotate = Matrix4x4::identity();
+	camera_rotate = Matrix4x4::rotate(M_PIf, make_float3(0.f, 1.f, 0.f));
 }
 
 

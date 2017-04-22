@@ -1,0 +1,304 @@
+newmtl bmx:Material__113
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__115
+illum 4
+Kd 0.61 0.61 0.61
+Ka 0.61 0.61 0.61
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.75 0.75 0.75
+Ns 48.50
+newmtl bmx:Material__116
+illum 4
+Kd 0.61 0.61 0.61
+Ka 0.61 0.61 0.61
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.75 0.75 0.75
+Ns 48.50
+newmtl bmx:Material__117
+illum 4
+Kd 0.33 0.33 0.33
+Ka 0.33 0.33 0.33
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.75 0.75 0.75
+Ns 48.50
+newmtl bmx:Material__118
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__119
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__120
+illum 4
+Kd 0.33 0.33 0.33
+Ka 0.33 0.33 0.33
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.75 0.75 0.75
+Ns 48.50
+newmtl bmx:Material__121
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__122
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__123
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__124
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__125
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__126
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__1190
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__1192
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__1195
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__1197
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__1210
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:Material__1212
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:brakeClamps01
+illum 4
+Kd 0.39 0.39 0.39
+Ka 0.39 0.39 0.39
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 24.25
+newmtl bmx:brakeLevers01
+illum 4
+Kd 0.11 0.11 0.11
+Ka 0.11 0.11 0.11
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.95 0.95 0.95
+Ns 45.25
+newmtl bmx:brakeLines01
+illum 4
+Kd 0.14 0.14 0.14
+Ka 0.14 0.14 0.14
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.97 0.97 0.97
+Ns 51.98
+newmtl bmx:brakeLines010
+illum 4
+Kd 0.14 0.14 0.14
+Ka 0.14 0.14 0.14
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.97 0.97 0.97
+Ns 51.98
+newmtl bmx:brakeLines012
+illum 4
+Kd 0.14 0.14 0.14
+Ka 0.14 0.14 0.14
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.97 0.97 0.97
+Ns 51.98
+newmtl bmx:chain01
+illum 4
+Kd 0.08 0.08 0.08
+Ka 0.08 0.08 0.08
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 39.40
+newmtl bmx:chrome
+illum 4
+Kd 0.06 0.06 0.06
+Ka 0.06 0.06 0.06
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 45.25
+newmtl bmx:frame01
+illum 4
+Kd 0.00 0.30 0.14
+Ka 0.00 0.30 0.14
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 73.52
+newmtl bmx:grips01
+illum 4
+Kd 0.08 0.15 0.22
+Ka 0.08 0.15 0.22
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.96 0.96 0.96
+Ns 25.99
+newmtl bmx:neck01
+illum 4
+Kd 0.61 0.61 0.61
+Ka 0.61 0.61 0.61
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.75 0.75 0.75
+Ns 48.50
+newmtl bmx:pedals01
+illum 4
+Kd 0.11 0.11 0.11
+Ka 0.11 0.11 0.11
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.91 0.91 0.91
+Ns 21.11
+newmtl bmx:pedals010
+illum 4
+Kd 0.11 0.11 0.11
+Ka 0.11 0.11 0.11
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.91 0.91 0.91
+Ns 21.11
+newmtl bmx:seat01
+illum 4
+Kd 0.05 0.05 0.05
+Ka 0.05 0.05 0.05
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 0.85 0.85 0.85
+Ns 16.00
+newmtl bmx:sidewalls01
+illum 4
+Kd 0.23 0.23 0.23
+Ka 0.23 0.23 0.23
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 34.30
+newmtl bmx:sidewalls010
+illum 4
+Kd 0.23 0.23 0.23
+Ka 0.23 0.23 0.23
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 34.30
+newmtl bmx:sprocket01
+illum 4
+Kd 0.07 0.07 0.07
+Ka 0.07 0.07 0.07
+Tf 1.00 1.00 1.00
+Ni 1.00
+Ks 1.00 1.00 1.00
+Ns 97.01
+newmtl bmx:tires01
+illum 4
+Kd 0.07 0.07 0.07
+Ka 0.07 0.07 0.07
+Tf 1.00 1.00 1.00
+bump bump_tyre.png -bm 0
+Ni 1.00
+Ks 0.87 0.87 0.87
+Ns 21.11
+newmtl bmx:tires010
+illum 4
+Kd 0.07 0.07 0.07
+Ka 0.07 0.07 0.07
+Tf 1.00 1.00 1.00
+bump bump_tyre.png -bm 0
+Ni 1.00
+Ks 0.87 0.87 0.87
+Ns 21.11
+newmtl infinity_plane:lambert2SG
+illum 4
+Kd 0.76 0.66 0.66
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
